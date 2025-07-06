@@ -6,3 +6,7 @@
  *= require_self
  *= require_tree .
 */
+
+.menu-top {
+    font-size: .8em;
+}

@@ -1,74 +1,150 @@
-<header class="wrapper grid-container w-full pt-2.5 px-5 lg:px-6 2xl:px-0">
-  <div class="col-span-full flex items-center justify-center max-h-[70px] lg:justify-between lg:gap-x-6">
-    <div class="flex items-center justify-center w-8 h-8 lg:py-2 lg:hidden">
-      <button type="button" class="inline-flex flex-col gap-y-2 items-center p-2 w-10 h-10 justify-center rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500" aria-controls="navbar-default" aria-expanded="false" data-action="click->drawer#toggle">
-        <span class="sr-only">Open main menu</span>
-        <svg class="bg-black dark:bg-sand" xmlns="http://www.w3.org/2000/svg" width="26" height="2" viewBox="0 0 26 2" fill="currentColor">
-          <line y1="1" x2="26" y2="1" stroke-width="2"/>
-        </svg>
-        <svg class="bg-black dark:bg-sand" xmlns="http://www.w3.org/2000/svg" width="26" height="2" viewBox="0 0 26 2" fill="currentColor">
-          <line y1="1" x2="26" y2="1" stroke-width="2"/>
-        </svg>
-      </button>
+<header class="w-full pt-2.5 px-5 lg:px-6 2xl:px-0 flex flex-col">
+  <div class="header-top">
+    <div class="col-span-full flex items-center justify-center max-h-[70px] lg:justify-between lg:gap-x-6">
+      <div class="flex items-center justify-center w-8 h-8 lg:py-2 lg:hidden">
+        <button type="button" class="inline-flex flex-col gap-y-2 items-center p-2 w-10 h-10 justify-center rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500" aria-controls="navbar-default" aria-expanded="false" data-action="click->drawer#toggle">
+          <span class="sr-only">Open main menu</span>
+          <svg class="bg-black dark:bg-sand" xmlns="http://www.w3.org/2000/svg" width="26" height="2" viewBox="0 0 26 2" fill="currentColor">
+            <line y1="1" x2="26" y2="1" stroke-width="2"/>
+          </svg>
+          <svg class="bg-black dark:bg-sand" xmlns="http://www.w3.org/2000/svg" width="26" height="2" viewBox="0 0 26 2" fill="currentColor">
+            <line y1="1" x2="26" y2="1" stroke-width="2"/>
+          </svg>
+        </button>
+      </div>
+      <div class="flex items-center gap-x-4 xl:gap-x-8 w-full justify-center lg:justify-start">
+        <%= link_to root_path, class: 'absolute lg:relative left-1/2 lg:left-0 lg:-translate-x-0 -translate-x-1/2 flex items-center space-x-3' do %>
+          <%= image_tag "logo_small_no_label.svg" %>
+          <span class="uppercase font-sans font-semibold mb-0 dark:text-sand text-body lg:text-body-sm xl:text-body-sm"><%= "Bán Tranh" %>
+        <% end %>
+
+        <% categories = taxonomies.first %>
+        <% navMobileClasses = '
+          categories-menu bg-white
+          fixed top-0 left-0 z-40 w-[80%] max-w-[400px] min-w-[270px] h-full
+          transition-transform duration-300 ease-in-out -translate-x-full
+          flex flex-col
+          lg:bg-sand dark:bg-black dark:text-white text-black dark:lg:text-sand
+          px-8 py-5 text-body-sm'
+        %>
+        <% navDesktopClasses = '
+          lg:relative lg:z-0 lg:h-auto lg:max-h-[70px] lg:transition-none lg:translate-x-0
+          lg:flex-row lg:items-center
+          dark:lg:text-sand
+          lg:p-0'
+        %>
+
+        <nav class="<%= navMobileClasses + navDesktopClasses %> text-" data-drawer-target="drawer">
+          <button type="button" class="w-8 h-8 self-start -ml-[5px] lg:hidden" aria-controls="navbar-default" aria-expanded="false" data-action="click->drawer#toggle">
+            <span class="sr-only">Close main menu</span>
+            <svg class='w-8 h-8 fill-gray-500'>
+              <use xlink:href="<%= image_path('remixicon.symbol.svg') %>#ri-close-line"></use>
+            </svg>
+          </button>
+
+          <div class="block my-12">
+            <%= render 'shared/search/search_bar', taxons: taxons, taxon: taxon, :locals => { :additional_classes => 'lg:hidden', search_input_id: 'mobile-search-input-area', results_list_id: 'autocomplete-results-mobile' } %>
+          </div>
+
+          <div class="lg:hidden mt-auto">
+          <div class="flex justify-between">
+            <%= render "shared/navigation/theme_switcher" %>
+
+            <%= link_to "https://solidus.io", class:"flex flex-row items-center gap-1" do %>
+              <span class="font-semibold text-black dark:text-white">solidus.io</span>
+              <svg class='w-5 h-5 fill-black dark:fill-white'>
+                <use xlink:href="<%= image_path('remixicon.symbol.svg') %>#ri-arrow-right-up-line"></use>
+              </svg>
+            <% end %>
+          </div>
+          </div>
+        </nav>
+      </div>
+      <%= render 'layouts/top_bar', taxons: taxons, taxon: taxon %>
     </div>
-    <div class="flex items-center gap-x-4 xl:gap-x-8 w-full justify-center lg:justify-start">
-      <%= link_to root_path, class: 'absolute lg:relative left-1/2 lg:left-0 lg:-translate-x-0 -translate-x-1/2 flex items-center space-x-3' do %>
-        <%= image_tag "logo_small_no_label.svg" %>
-        <span class="uppercase font-sans font-semibold mb-0 dark:text-sand text-body lg:text-body-sm xl:text-body-sm"><%= Spree::Store.default.name %></span>
-      <% end %>
-
-      <% categories = taxonomies.first %>
-      <% navMobileClasses = '
-        categories-menu bg-white
-        fixed top-0 left-0 z-40 w-[80%] max-w-[400px] min-w-[270px] h-full
-        transition-transform duration-300 ease-in-out -translate-x-full
-        flex flex-col
-        lg:bg-sand dark:bg-black dark:text-white text-black dark:lg:text-sand
-        px-8 py-5 text-body-sm'
-      %>
-      <% navDesktopClasses = '
-        lg:relative lg:z-0 lg:h-auto lg:max-h-[70px] lg:transition-none lg:translate-x-0
-        lg:flex-row lg:items-center
-        dark:lg:text-sand
-        lg:p-0'
-      %>
-
-      <nav class="<%= navMobileClasses + navDesktopClasses %> text-" data-drawer-target="drawer">
-        <button type="button" class="w-8 h-8 self-start -ml-[5px] lg:hidden" aria-controls="navbar-default" aria-expanded="false" data-action="click->drawer#toggle">
-          <span class="sr-only">Close main menu</span>
-          <svg class='w-8 h-8 fill-gray-500'>
-            <use xlink:href="<%= image_path('remixicon.symbol.svg') %>#ri-close-line"></use>
+  </div>
+    
+  <div class="header-bottom">
+    <nav class="bg-[#6c5070] text-white p-4"> <div class="container mx-auto flex justify-between items-center">
+        <button class="md:hidden text-white focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         </button>
 
-        <div class="block my-12">
-          <%= render 'shared/search/search_bar', taxons: taxons, taxon: taxon, :locals => { :additional_classes => 'lg:hidden', search_input_id: 'mobile-search-input-area', results_list_id: 'autocomplete-results-mobile' } %>
-        </div>
+        <ul class="flex flex-col md:flex-row md:space-x-8 menu-top"> <li>
+            <a href="#" class="block py-2 px-3 text-lg font-medium hover:text-gray-300">TRÊNH SƠN DẦU</a>
+          </li>
 
-        <% cache [I18n.locale, categories, taxon] do %>
-          <%= render(TaxonsTreeComponent.new(
-            root_taxon: categories.root,
-            current_taxon: taxon,
-            max_level: 1,
-            item_classes: 'font-sans-md',
-            current_item_classes: 'text-solidus-red',
-            )) if categories %>
-        <% end %>
+          <li class="relative group"> <a href="#" class="block py-2 px-3 text-lg font-medium hover:text-gray-300 flex items-center">
+              TRANH PHONG CẢNH
+              <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </a>
+            <ul class="absolute hidden group-hover:block bg-white text-gray-800 shadow-lg rounded-md mt-2 w-64 z-10">
+              <li><a href="#" class="block px-4 py-2 hover:bg-gray-200">Tranh Phong Cảnh Đồng Quê</a></li>
+              <li><a href="#" class="block px-4 py-2 hover:bg-gray-200">Tranh Phong Cảnh Vùng Cao</a></li>
+              <li><a href="#" class="block px-4 py-2 hover:bg-gray-200">Tranh Phong Cảnh Biển</a></li>
+              <li><a href="#" class="block px-4 py-2 hover:bg-gray-200">Tranh Phố Cổ</a></li>
+              <li><a href="#" class="block px-4 py-2 hover:bg-gray-200">Ngõ Nhỏ, Phố Nhỏ</a></li>
+              <li><a href="#" class="block px-4 py-2 hover:bg-gray-200">Tranh Núi Rừng</a></li>
+            </ul>
+          </li>
 
-        <div class="lg:hidden mt-auto">
-        <div class="flex justify-between">
-          <%= render "shared/navigation/theme_switcher" %>
+          <li class="relative group">
+            <a href="#" class="block py-2 px-3 text-lg font-medium hover:text-gray-300 flex items-center">
+              TRANH HOA
+              <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </a>
+            <ul class="absolute hidden group-hover:block bg-white text-gray-800 shadow-lg rounded-md mt-2 w-64 z-10">
+              <li><a href="#" class="block px-4 py-2 hover:bg-gray-200">Tranh Hoa Sen</a></li>
+              <li><a href="#" class="block px-4 py-2 hover:bg-gray-200">Tranh Hoa Mai</a></li>
+              </ul>
+          </li>
 
-          <%= link_to "https://solidus.io", class:"flex flex-row items-center gap-1" do %>
-            <span class="font-semibold text-black dark:text-white">solidus.io</span>
-            <svg class='w-5 h-5 fill-black dark:fill-white'>
-              <use xlink:href="<%= image_path('remixicon.symbol.svg') %>#ri-arrow-right-up-line"></use>
-            </svg>
-          <% end %>
-        </div>
-        </div>
-      </nav>
-    </div>
-    <%= render 'layouts/top_bar', taxons: taxons, taxon: taxon %>
+          <li class="relative group">
+            <a href="#" class="block py-2 px-3 text-lg font-medium hover:text-gray-300 flex items-center">
+              TRANH SƠN MÀI
+              <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </a>
+            <ul class="absolute hidden group-hover:block bg-white text-gray-800 shadow-lg rounded-md mt-2 w-64 z-10">
+              <li><a href="#" class="block px-4 py-2 hover:bg-gray-200">Sơn Mài Truyền Thống</a></li>
+              <li><a href="#" class="block px-4 py-2 hover:bg-gray-200">Sơn Mài Hiện Đại</a></li>
+              </ul>
+          </li>
+
+          <li class="relative group">
+            <a href="#" class="block py-2 px-3 text-lg font-medium hover:text-gray-300 flex items-center">
+              NGHỆ THUẬT
+              <svg class="w-4 h-4 ml-1 transform group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </a>
+            <ul class="absolute hidden group-hover:block bg-white text-gray-800 shadow-lg rounded-md mt-2 w-64 z-10">
+              <li><a href="#" class="block px-4 py-2 hover:bg-gray-200">Nghệ Sĩ Nổi Tiếng</a></li>
+              <li><a href="#" class="block px-4 py-2 hover:bg-gray-200">Trường Phái Nghệ Thuật</a></li>
+              </ul>
+          </li>
+
+          <li>
+            <a href="#" class="block py-2 px-3 text-lg font-medium hover:text-gray-300">TRANH TRỪU TƯỢNG</a>
+          </li>
+          <li>
+            <a href="#" class="block py-2 px-3 text-lg font-medium hover:text-gray-300">TRANH PHONG THỦY</a>
+          </li>
+          <li>
+            <a href="#" class="block py-2 px-3 text-lg font-medium hover:text-gray-300">QUÀ TẶNG</a>
+          </li>
+          <li>
+            <a href="#" class="block py-2 px-3 text-lg font-medium hover:text-gray-300">KHUNG TRANH</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
   </div>
 </header>

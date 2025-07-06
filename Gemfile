@@ -34,10 +34,11 @@ gem "kamal", require: false
 
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem "thruster", require: false
-gem 'sprockets-rails', '~> 3.4.2'
-gem 'sprockets', '~> 4.1'
-gem 'solidus', '~> 4.5.1'
+gem "sprockets-rails", "~> 3.4.2"
+gem "sprockets", "~> 4.1"
+gem "solidus", "~> 4.5.1"
 gem "solidus_admin", ">= 0.2"
+gem "rails-i18n"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"

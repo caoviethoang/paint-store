@@ -8,6 +8,8 @@ Bundler.require(*Rails.groups)
 
 module PaintStore
   class Application < Rails::Application
+    config.i18n.default_locale = :vi
+    
     if defined?(FactoryBotRails)
       initializer after: "factory_bot.set_factory_paths" do
         require 'spree/testing_support/factory_bot'
